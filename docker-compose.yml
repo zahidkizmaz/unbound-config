@@ -1,0 +1,27 @@
+---
+services:
+  redis:
+    image: docker.io/redis:7.2-alpine@sha256:0bc09d9f486508aa42ecc2f18012bb1e3a1b2744ef3a6ad30942fa12579f0b03
+    container_name: unbound-redis
+    command: >
+      redis-server --save 43200 1 7200 100 --loglevel debug --rdbchecksum no
+    volumes:
+      - "./redis:/data"
+    restart: always
+  unbound:
+    image: docker.io/crazymax/unbound@sha256:a820c63d07fbd863f1863d5af001c330d6cff5bdcc70ad78d503377e6b1ce69e
+    container_name: unbound
+    depends_on:
+      - redis
+    ports:
+      - target: 5053
+        published: 8553
+        protocol: tcp
+      - target: 5053
+        published: 8553
+        protocol: udp
+    volumes:
+      - "./config:/config:ro"
+      # - "./config:/unbound.conf:ro"
+      # - "/var/log/unbound.log:/unbound.log"
+    restart: always
