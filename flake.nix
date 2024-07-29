@@ -7,14 +7,12 @@
     systems.url = "github:nix-systems/default";
   };
 
-  outputs = { self, nixpkgs, systems, compose2nix, ... }:
+  outputs = { nixpkgs, systems, compose2nix, ... }:
     let
       eachSystem = nixpkgs.lib.genAttrs (import systems);
     in
     {
-      nixosModules.dns = import ./docker-compose.nix;
-      nixosModules.default = self.nixosModules.dns;
-
+      lib.dns = import ./docker-compose.nix;
       devShells = eachSystem
         (system:
           let
