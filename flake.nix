@@ -13,7 +13,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        nixosModules.default = import ./docker-compose.nix;
+        nixosModules.dns = import ./docker-compose.nix;
         devShells.default = pkgs.mkShell {
           packages = [
             pkgs.nixd
