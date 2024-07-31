@@ -13,17 +13,19 @@
   };
   virtualisation.oci-containers.backend = "podman";
 
+  environment.systemPackages = [ pkgs.podman-compose ];
+
   networking.firewall.allowedTCPPorts = [ 8553 ];
 
   systemd.services.unbound-compose = {
-    path = [ pkgs.podman ];
+    path = [ pkgs.podman-compose ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStop = "podman compose -f ./docker-compose.yml down";
+      ExecStop = "podman-compose -f ./docker-compose.yml down";
     };
     script = ''
-      podman compose -f ./docker-compose.yml up
+      podman-compose -f ./docker-compose.yml up
     '';
     wantedBy = [ "multi-user.target" ];
     after = [ "podman.service" "podman.socket" ];
