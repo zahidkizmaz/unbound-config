@@ -18,7 +18,7 @@
   networking.firewall.allowedTCPPorts = [ 8553 ];
 
   systemd.services.unbound-compose = {
-    path = [ pkgs.podman-compose ];
+    path = with pkgs; [ podman podman-compose ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
