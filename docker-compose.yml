@@ -7,6 +7,13 @@ services:
       redis-server --save 43200 1 7200 100 --loglevel debug --rdbchecksum no
     volumes:
       - "./redis:/data"
+    ports:
+      - target: 6379
+        published: 6379
+        protocol: tcp
+      - target: 6379
+        published: 6379
+        protocol: udp
     restart: always
   unbound:
     image: docker.io/crazymax/unbound@sha256:a820c63d07fbd863f1863d5af001c330d6cff5bdcc70ad78d503377e6b1ce69e

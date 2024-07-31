@@ -1,4 +1,4 @@
-# Auto-generated using compose2nix v0.2.1-pre.
+# Auto-generated using compose2nix v0.2.2-pre.
 { pkgs, lib, ... }:
 
 {
@@ -56,6 +56,10 @@
     image = "docker.io/redis:7.2-alpine@sha256:0bc09d9f486508aa42ecc2f18012bb1e3a1b2744ef3a6ad30942fa12579f0b03";
     volumes = [
       "redis:/data:rw"
+    ];
+    ports = [
+      "6379:6379/tcp"
+      "6379:6379/udp"
     ];
     cmd = [ "redis-server" "--save" "43200" "1" "7200" "100" "--loglevel" "debug" "--rdbchecksum" "no" ];
     log-driver = "journald";
