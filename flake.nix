@@ -3,11 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    compose2nix.url = "github:aksiksi/compose2nix";
     systems.url = "github:nix-systems/default";
   };
 
-  outputs = { nixpkgs, systems, compose2nix, ... }:
+  outputs = { nixpkgs, systems, ... }:
     let
       eachSystem = nixpkgs.lib.genAttrs (import systems);
     in
@@ -24,7 +23,6 @@
                 packages = [
                   pkgs.nixd
                   pkgs.nixpkgs-fmt
-                  compose2nix.packages.${system}.default
                 ];
               };
           });
