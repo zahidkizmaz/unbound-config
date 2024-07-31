@@ -14,6 +14,8 @@
   };
   virtualisation.oci-containers.backend = "podman";
 
+  networking.firewall.allowedTCPPorts = [ 8553 ];
+
   # Containers
   virtualisation.oci-containers.containers."unbound" = {
     image = "docker.io/crazymax/unbound@sha256:a820c63d07fbd863f1863d5af001c330d6cff5bdcc70ad78d503377e6b1ce69e";
