@@ -29,6 +29,7 @@ in
       RemainAfterExit = true;
       ExecStartPre = [
         "${podmanPath} pod rm -f pod_store || true"
+        "${podmanComposePath} --verbose -f ${composeFilePath} build"
       ];
       ExecStart = "${podmanComposePath} -f ${composeFilePath} up";
       ExecStop = "${podmanComposePath} -f ${composeFilePath} down";
