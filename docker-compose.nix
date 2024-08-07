@@ -1,5 +1,9 @@
 { pkgs, ... }:
 
+let
+  composeFilePath = ./docker-compose.yml;
+  podmanComposePath = "${pkgs.podman_compose}/bin/podman-compose";
+in
 {
   # Runtime
   virtualisation.podman = {
@@ -20,10 +24,10 @@
   systemd.services.unbound-compose = {
     path = with pkgs; [ podman podman-compose ];
     serviceConfig = {
-      Type = "oneshot";
+      Restart = "always";
       RemainAfterExit = true;
-      ExecStart = "podman-compose -f ${./docker-compose.yml} up";
-      ExecStop = "podman-compose -f ${./docker-compose.yml} down";
+      ExecStart = "${podmanComposePath} -f ${composeFilePath} up";
+      ExecStop = "${podmanComposePath} -f ${composeFilePath} down";
     };
     wantedBy = [ "multi-user.target" ];
     after = [ "podman.service" "podman.socket" ];
