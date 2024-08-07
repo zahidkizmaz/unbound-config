@@ -2,7 +2,7 @@
 
 let
   composeFilePath = ./docker-compose.yml;
-  podmanComposePath = "${pkgs.podman_compose}/bin/podman-compose";
+  podmanComposePath = "${pkgs.podman-compose}/bin/podman-compose";
 in
 {
   # Runtime
