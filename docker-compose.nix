@@ -31,7 +31,7 @@ in
         "${podmanPath} pod rm -f pod_store || true"
         "${podmanComposePath} --verbose -f ${composeFilePath} build"
       ];
-      ExecStart = "${podmanComposePath} -f ${composeFilePath} up";
+      ExecStart = "${podmanComposePath} -f ${composeFilePath} up --force-recreate";
       ExecStop = "${podmanComposePath} -f ${composeFilePath} down";
     };
     wantedBy = [ "multi-user.target" ];
