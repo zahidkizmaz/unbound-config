@@ -6,12 +6,16 @@
     systems.url = "github:nix-systems/default";
   };
 
-  outputs = { nixpkgs, systems, ... }:
+  outputs = { self, nixpkgs, systems, ... }:
     let
       eachSystem = nixpkgs.lib.genAttrs (import systems);
     in
     {
-      lib.dns = import ./docker-compose.nix;
+      nixosModules = {
+        recursive_dns = import ./docker-compose.nix;
+        default = self.nixosModules.recursive_dns;
+      };
+
       devShells = eachSystem
         (system:
           let
