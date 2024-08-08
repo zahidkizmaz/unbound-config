@@ -33,6 +33,7 @@ in
       ];
       ExecStart = "${podmanComposePath} -f ${composeFilePath} up --force-recreate";
       ExecStop = "${podmanComposePath} -f ${composeFilePath} down";
+      WorkingDirectory = "${toString "./"}";
     };
     wantedBy = [ "multi-user.target" ];
     after = [ "podman.service" "podman.socket" ];
