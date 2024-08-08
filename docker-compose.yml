@@ -28,7 +28,7 @@ services:
         published: 8553
         protocol: udp
     volumes:
-      - "./config:/config:ro"
+      - "/tmp/unbound-config:/config:ro"
       # - "./config:/unbound.conf:ro"
       # - "/var/log/unbound.log:/unbound.log"
     restart: always

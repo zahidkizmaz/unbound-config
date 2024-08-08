@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 let
-  flakeDir = "${builtins.getFlake (toString "./")}";
   composeFilePath = ./docker-compose.yml;
   podmanPath = "${pkgs.podman}/bin/podman";
   podmanComposePath = "${pkgs.podman-compose}/bin/podman-compose";
@@ -28,8 +27,8 @@ in
     serviceConfig = {
       Restart = "always";
       RemainAfterExit = true;
-      WorkingDirectory = "${flakeDir}";
       ExecStartPre = [
+        "cp -r ./config /tmp/unbound-config"
         "${podmanPath} pod rm -f pod_store || true"
         "${podmanComposePath} --verbose -f ${composeFilePath} build"
       ];
