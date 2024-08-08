@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 let
+  flakeDir = "${builtins.getFlake (toString "./")}";
   composeFilePath = ./docker-compose.yml;
   podmanPath = "${pkgs.podman}/bin/podman";
   podmanComposePath = "${pkgs.podman-compose}/bin/podman-compose";
@@ -27,13 +28,13 @@ in
     serviceConfig = {
       Restart = "always";
       RemainAfterExit = true;
+      WorkingDirectory = "${flakeDir}";
       ExecStartPre = [
         "${podmanPath} pod rm -f pod_store || true"
         "${podmanComposePath} --verbose -f ${composeFilePath} build"
       ];
       ExecStart = "${podmanComposePath} -f ${composeFilePath} up --force-recreate";
       ExecStop = "${podmanComposePath} -f ${composeFilePath} down";
-      WorkingDirectory = "${toString "./"}";
     };
     wantedBy = [ "multi-user.target" ];
     after = [ "podman.service" "podman.socket" ];
