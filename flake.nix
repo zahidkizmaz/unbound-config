@@ -12,7 +12,7 @@
     in
     {
       nixosModules = {
-        recursive_dns = import ./docker-compose.nix;
+        recursive_dns = import ./docker-compose-service.nix;
         default = self.nixosModules.recursive_dns;
       };
 
