@@ -29,7 +29,7 @@ in
       Restart = "always";
       RemainAfterExit = true;
       ExecStartPre = [
-        "ls ${configPath}"
+        "${pkgs.coreutils-full}/bin/ls ${configPath}"
         "${podmanPath} pod rm -f pod_store || true"
         "${podmanComposePath} --verbose -f ${composeFilePath} build"
       ];
