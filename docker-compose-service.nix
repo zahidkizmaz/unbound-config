@@ -20,7 +20,7 @@ in
 
   environment.systemPackages = [ pkgs.podman-compose ];
 
-  networking.firewall.allowedTCPPorts = [ 8553 ];
+  networking.firewall.allowedTCPPorts = [ 8553 6379 ];
 
   systemd.services.unbound-compose = {
     path = with pkgs; [ podman podman-compose ];
