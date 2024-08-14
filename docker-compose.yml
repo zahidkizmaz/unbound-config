@@ -6,7 +6,7 @@ services:
     command: >
       redis-server --save 43200 1 7200 100 --loglevel debug --rdbchecksum no
     volumes:
-      - "/var/cache/:/data"
+      - "./data:/data"
     ports:
       - target: 6379
         published: 6379
@@ -28,7 +28,7 @@ services:
         published: 8553
         protocol: udp
     volumes:
-      - "/etc/unbound-config:/config:ro"
+      - "./config:/config/:ro"
       # - "./config:/unbound.conf:ro"
       # - "/var/log/unbound.log:/unbound.log"
     restart: always
