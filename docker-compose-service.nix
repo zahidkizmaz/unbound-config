@@ -1,10 +1,16 @@
 { pkgs, ... }:
 
 let
-  configPath = ./config;
+  configFile = ./config/unbound.conf;
   composeFilePath = ./docker-compose.yml;
   podmanPath = "${pkgs.podman}/bin/podman";
   podmanComposePath = "${pkgs.podman-compose}/bin/podman-compose";
+  environment.etc = {
+    unbound.conf =
+      {
+        source = "${configFile}";
+      };
+  };
 in
 {
   # Runtime
@@ -29,7 +35,6 @@ in
       Restart = "always";
       RemainAfterExit = true;
       ExecStartPre = [
-        "${pkgs.coreutils-full}/bin/ls ${configPath}"
         "${podmanPath} pod rm -f pod_store || true"
         "${podmanComposePath} --verbose -f ${composeFilePath} build"
       ];
