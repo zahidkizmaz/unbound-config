@@ -5,11 +5,9 @@ let
   composeFilePath = ./docker-compose.yml;
   podmanPath = "${pkgs.podman}/bin/podman";
   podmanComposePath = "${pkgs.podman-compose}/bin/podman-compose";
-  environment.etc = {
-    unbound.conf =
-      {
-        source = "${configFile}";
-      };
+  environment.etc."unbound-config/unbound.conf" = {
+    mode = "0777";
+    source = "${configFile}";
   };
 in
 {
