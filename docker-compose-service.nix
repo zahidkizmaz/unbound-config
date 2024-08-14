@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 let
+  configPath = ./config;
   composeFilePath = ./docker-compose.yml;
   podmanPath = "${pkgs.podman}/bin/podman";
   podmanComposePath = "${pkgs.podman-compose}/bin/podman-compose";
@@ -28,10 +29,11 @@ in
       Restart = "always";
       RemainAfterExit = true;
       ExecStartPre = [
+        "ls ${configPath}"
         "${podmanPath} pod rm -f pod_store || true"
         "${podmanComposePath} --verbose -f ${composeFilePath} build"
       ];
-      ExecStart = "${podmanComposePath} -f ${composeFilePath} up --force-recreate";
+      ExecStart = "${podmanComposePath} -f ${composeFilePath} up";
       ExecStop = "${podmanComposePath} -f ${composeFilePath} down";
     };
     wantedBy = [ "multi-user.target" ];
