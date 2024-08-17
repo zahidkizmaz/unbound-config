@@ -6,7 +6,7 @@ services:
     command: >
       redis-server --save 43200 1 7200 100 --loglevel debug --rdbchecksum no
     volumes:
-      - "./redis:/data"
+      - ./redis:/data
     ports:
       - target: 6379
         published: 6379
@@ -28,5 +28,5 @@ services:
         published: 8553
         protocol: udp
     volumes:
-      - "./config:/config:ro"
+      - ./config:/config:ro
     restart: always

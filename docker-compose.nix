@@ -1,6 +1,9 @@
 # Auto-generated using compose2nix v0.2.2-pre.
 { pkgs, lib, ... }:
-
+let
+  configPath = ./config;
+  redisDataPath = ./redis;
+in
 {
   # Runtime
   virtualisation.podman = {
@@ -17,9 +20,7 @@
   # Containers
   virtualisation.oci-containers.containers."unbound" = {
     image = "docker.io/crazymax/unbound@sha256:a820c63d07fbd863f1863d5af001c330d6cff5bdcc70ad78d503377e6b1ce69e";
-    volumes = [
-      "config:/config:ro"
-    ];
+    volumes = [ "${builtins.toString configPath}:/config:ro" ];
     ports = [
       "8553:5053/tcp"
       "8553:5053/udp"
@@ -52,9 +53,7 @@
   };
   virtualisation.oci-containers.containers."unbound-redis" = {
     image = "docker.io/redis:7.2-alpine@sha256:0bc09d9f486508aa42ecc2f18012bb1e3a1b2744ef3a6ad30942fa12579f0b03";
-    volumes = [
-      "/var/cache/:/data:rw"
-    ];
+    volumes = [ "${builtins.toString redisDataPath}:/data:rw" ];
     ports = [
       "6379:6379/tcp"
       "6379:6379/udp"
