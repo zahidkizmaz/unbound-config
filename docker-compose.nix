@@ -22,8 +22,8 @@ in
     image = "docker.io/crazymax/unbound@sha256:a820c63d07fbd863f1863d5af001c330d6cff5bdcc70ad78d503377e6b1ce69e";
     volumes = [ "${builtins.toString configPath}:/config:ro" ];
     ports = [
-      "8553:53/tcp"
-      "8553:53/udp"
+      "8553:5053/tcp"
+      "8553:5053/udp"
     ];
     dependsOn = [
       "unbound-redis"
