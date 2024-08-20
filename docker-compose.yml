@@ -21,10 +21,10 @@ services:
     depends_on:
       - unbound-redis
     ports:
-      - target: 5053
+      - target: 53
         published: 8553
         protocol: tcp
-      - target: 5053
+      - target: 53
         published: 8553
         protocol: udp
     volumes:
